@@ -1,5 +1,8 @@
-const express = require ("express")
-const mongoose = require("mongoose")
+// const express = require ("express")
+// const mongoose = require("mongoose")
+import express from "express";
+import mongoose from "mongoose";
+import validator from "validator";
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -14,7 +17,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Email is required"],
     unique: true,
-    lowercase: true,
     validate: {
       validator: validator.isEmail,
       message: "Invalid email format"
@@ -28,17 +30,20 @@ const userSchema = new mongoose.Schema({
   },
 
   phonenumber: {
-    type: String, // ❗ change Number → String
-    required: [true, "Phone number is required"],
-    validate: {
-      validator: function(v) {
-        return /^[0-9]{10}$/.test(v);
-      },
-      message: "Phone number must be 10 digits"
-    }
+    type: String, 
+    // required: [true, "Phone number is required"],
+    default: "",
+    unique: true,
+     
+  },
+
+  pincode:{
+    type: Number,
+    length: 6,
+    // required: [true, "Pincode is required"],
   }
-});
+},{timestamps: true});
 
 
 const User = mongoose.model('User', userSchema);
-module.exports = User;
+export default User;
