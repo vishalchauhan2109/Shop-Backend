@@ -1,31 +1,33 @@
-// const express = require("express");
 import express from "express";
-// const cors = require("cors");
+import dotenv from "dotenv";
 import cors from "cors";
-// const cookieParser = require("cookie-parser");
 import cookieParser from "cookie-parser";
-// const authRouter = require("./routes/authRoute")
 import authRouter from "./routes/authRoute.js";
-// const app = express();
+import { protect } from "./middlewares/authMiddleware.js";
+
+dotenv.config();
+
 const app = express();
 
-// Middlewares
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({
-  origin: "http://localhost:5173", // frontend URL
-  // credentials: true
-}));
+
 app.use(cookieParser());
 
-// Test route
+
 app.get("/", (req, res) => {
-  res.send("API is running...");  
-  console.log("backend runs succesfully");  
+  res.send("API is running...");
+  console.log("backend runs successfully");
 });
 
-app.use(authRouter)
 
+app.use(authRouter);
 
-// module.exports = app;
 export default app;
