@@ -9,14 +9,14 @@ dotenv.config();
 
 const app = express();
 
-const allowedOrigin =
-  process.env.NODE_ENV === "production"
-    ? process.env.CLIENT_URL
-    : "http://localhost:5173";
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://setra-app.onrender.com",
+];
 
 app.use(
   cors({
-    origin: allowedOrigin,
+    origin: allowedOrigins,
     credentials: true,
   })
 );
